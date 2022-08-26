@@ -1,6 +1,6 @@
 pkgname=czak-base
 pkgver=1
-pkgrel=1
+pkgrel=2
 arch=('any')
 license=('unknown')
 depends=(
@@ -25,8 +25,10 @@ depends=(
   'openssh'
   'rsync'
   'terminus-font'
+  'tmux'
   'tree'
   'unzip'
   'wget'
   'yadm'
+  'z'
 )
