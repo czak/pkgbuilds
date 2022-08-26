@@ -1,0 +1,32 @@
+pkgname=czak-base
+pkgver=1
+pkgrel=1
+arch=('any')
+license=('unknown')
+depends=(
+  # bluetooth
+  'bluez'
+  'bluez-utils'
+
+  # network
+  'netctl'
+  'dialog'
+  'wpa_supplicant'
+  'dhcpcd'
+
+  # else
+  'curl'
+  'efibootmgr'
+  'fzf'
+  'git'
+  'htop'
+  'imagemagick'
+  'neovim'
+  'openssh'
+  'rsync'
+  'terminus-font'
+  'tree'
+  'unzip'
+  'wget'
+  'yadm'
+)

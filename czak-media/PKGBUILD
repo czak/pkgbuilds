@@ -1,0 +1,11 @@
+pkgname=czak-media
+pkgver=1
+pkgrel=1
+arch=('any')
+license=('unknown')
+depends=(
+  'eom'
+  'pamixer'
+  'pavucontrol'
+  'mpv'
+)

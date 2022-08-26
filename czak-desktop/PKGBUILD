@@ -1,0 +1,24 @@
+pkgname=czak-desktop
+pkgver=1
+pkgrel=1
+arch=('any')
+license=('unknown')
+depends=(
+  # fonts
+  'adobe-source-sans-fonts'
+  'adobe-source-serif-fonts'
+  'otf-fira-sans'
+  'otf-font-awesome'
+  'ttf-jetbrains-mono'
+
+  # else
+  'alacritty'
+  'firefox'
+  'galculator'
+  'i3blocks'
+  'jq' # required by grimshot
+  'light'
+  'rofi'
+  'slurp'
+  'sway'
+)
