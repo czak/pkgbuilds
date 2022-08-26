@@ -1,11 +1,13 @@
 pkgname=czak-media
 pkgver=1
-pkgrel=1
+pkgrel=2
 arch=('any')
 license=('unknown')
 depends=(
   'eom'
   'pamixer'
+  'pipewire'
+  'pipewire-pulse'
   'pavucontrol'
   'mpv'
 )
