@@ -1,6 +1,6 @@
 pkgname=czak-desktop
 pkgver=1
-pkgrel=1
+pkgrel=3
 arch=('any')
 license=('unknown')
 depends=(
@@ -10,6 +10,10 @@ depends=(
   'otf-fira-sans'
   'otf-font-awesome'
   'ttf-jetbrains-mono'
+
+  # gui
+  'arc-gtk-theme'
+  'arc-icon-theme'
 
   # else
   'alacritty'
@@ -21,4 +25,5 @@ depends=(
   'rofi'
   'slurp'
   'sway'
+  'xorg-xwayland'
 )
