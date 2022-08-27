@@ -1,6 +1,6 @@
 pkgname=czak-media
 pkgver=1
-pkgrel=2
+pkgrel=3
 arch=('any')
 license=('unknown')
 depends=(
@@ -10,4 +10,5 @@ depends=(
   'pipewire-pulse'
   'pavucontrol'
   'mpv'
+  'yt-dlp'
 )

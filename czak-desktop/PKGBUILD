@@ -1,6 +1,6 @@
 pkgname=czak-desktop
 pkgver=1
-pkgrel=3
+pkgrel=4
 arch=('any')
 license=('unknown')
 depends=(
@@ -25,5 +25,6 @@ depends=(
   'rofi'
   'slurp'
   'sway'
+  'swaybg'
   'xorg-xwayland'
 )
