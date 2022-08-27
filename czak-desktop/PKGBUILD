@@ -1,6 +1,6 @@
 pkgname=czak-desktop
 pkgver=1
-pkgrel=4
+pkgrel=6
 arch=('any')
 license=('unknown')
 depends=(
@@ -20,11 +20,15 @@ depends=(
   'firefox'
   'galculator'
   'i3blocks'
-  'jq' # required by grimshot
   'light'
   'rofi'
-  'slurp'
   'sway'
   'swaybg'
   'xorg-xwayland'
+
+  # taking screenshots (grimshot script)
+  'grim'
+  'jq'
+  'slurp'
+  'wl-clipboard'
 )
