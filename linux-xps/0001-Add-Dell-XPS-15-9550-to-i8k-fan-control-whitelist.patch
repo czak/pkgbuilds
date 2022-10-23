@@ -1,0 +1,56 @@
+From 655bdfff99b912726aaaaad83c12e884d36128ff Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=C5=81ukasz=20Adamczak?= <czak@users.noreply.github.com>
+Date: Sun, 23 Oct 2022 13:37:11 +0200
+Subject: [PATCH] Add Dell XPS 15 9550 to i8k fan control whitelist
+
+Toggling automatic BIOS fan control works correctly on my XPS 9550 using
+the 0x34a3/0x35a3 commands. However, the pwm1_enable attribute is not
+enabled for this laptop.
+
+Until now, I've been using https://github.com/TomFreudenberg/dell-bios-fan-control
+which uses these codes.
+
+With this patch, the pwm1_enable is exposed for the XPS 15 9550, so that
+the external utility will no longer be necessary. It will be possible to
+toggle automatic fan control AND control the fan speed using the sysfs
+interface.
+
+To disable automatic BIOS fan control:
+
+$ echo 1 | sudo tee /sys/devices/platform/dell_smm_hwmon/hwmon/hwmon*/pwm1_enable
+
+To control fan speeds (three levels available: 0, 128, or 256):
+
+$ echo 0 | sudo tee /sys/devices/platform/dell_smm_hwmon/hwmon/hwmon*/pwm*
+$ echo 128 | sudo tee /sys/devices/platform/dell_smm_hwmon/hwmon/hwmon*/pwm*
+$ echo 256 | sudo tee /sys/devices/platform/dell_smm_hwmon/hwmon/hwmon*/pwm*
+
+To reenable automatic BIOS fan control:
+
+$ echo 2 | sudo tee /sys/devices/platform/dell_smm_hwmon/hwmon/hwmon*/pwm1_enable
+---
+ drivers/hwmon/dell-smm-hwmon.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/hwmon/dell-smm-hwmon.c b/drivers/hwmon/dell-smm-hwmon.c
+index 7f8d95dd2..8320d959b 100644
+--- a/drivers/hwmon/dell-smm-hwmon.c
++++ b/drivers/hwmon/dell-smm-hwmon.c
+@@ -1338,6 +1338,14 @@ static const struct dmi_system_id i8k_whitelist_fan_control[] __initconst = {
+ 		},
+ 		.driver_data = (void *)&i8k_fan_control_data[I8K_FAN_34A3_35A3],
+ 	},
++	{
++		.ident = "Dell XPS 15 9550",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "XPS 15 9550"),
++		},
++		.driver_data = (void *)&i8k_fan_control_data[I8K_FAN_34A3_35A3],
++	},
+ 	{ }
+ };
+ 
+-- 
+2.38.1
+

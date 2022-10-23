@@ -18,6 +18,7 @@ _srcname=archlinux-linux
 source=(
   "$_srcname::git+https://github.com/archlinux/linux?signed#tag=$_srctag"
   config         # the main kernel config file
+  0001-Add-Dell-XPS-15-9550-to-i8k-fan-control-whitelist.patch
 )
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
@@ -26,7 +27,8 @@ validpgpkeys=(
   'C7E7849466FE2358343588377258734B41C31549'  # David Runge <dvzrv@archlinux.org>
 )
 sha256sums=('SKIP'
-            '9764b52d6b79378124755ba6926104ed4d0cf079e7e1b7eafb7a99406f747fb5')
+            '9764b52d6b79378124755ba6926104ed4d0cf079e7e1b7eafb7a99406f747fb5'
+            'd9b059c1237d33c0a08a1691b0bc772e552fcebcd6df5f7b076205e5f56bac44')
 
 export KBUILD_BUILD_HOST=archlinux
 export KBUILD_BUILD_USER=$pkgbase
