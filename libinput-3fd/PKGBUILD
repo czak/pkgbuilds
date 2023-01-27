@@ -1,0 +1,40 @@
+pkgname=libinput-resumable-3fd
+pkgver=1.21.0
+pkgrel=1
+pkgdesc="Input device management and event handling library, abcdef/resumable-3fd fork"
+url="https://gitlab.freedesktop.org/abcdef/libinput"
+arch=(x86_64)
+license=(custom:X11)
+provides=('libinput=1.21.0')
+conflicts=('libinput')
+depends=('mtdev' 'systemd' 'libevdev' 'libwacom')
+# upstream doesn't recommend building docs
+makedepends=('gtk4' 'meson' 'wayland-protocols' 'check') # 'doxygen' 'graphviz' 'python-sphinx' 'python-recommonmark'
+optdepends=('gtk4: libinput debug-gui'
+            'python-pyudev: libinput measure'
+            'python-libevdev: libinput measure')
+source=(https://gitlab.freedesktop.org/abcdef/libinput/-/archive/resumable-3fd/$pkgname.tar.bz2)
+sha256sums=('84b40da9cb8d0b594eb9a4dc5870377a3f07b6e53e9dd727de397a267dfdcad9')
+
+build() {
+  arch-meson $pkgname build \
+    -D udev-dir=/usr/lib/udev \
+    -D documentation=false
+
+  # Print config
+  meson configure build
+
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+
+  install -Dvm644 $pkgname/COPYING \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
