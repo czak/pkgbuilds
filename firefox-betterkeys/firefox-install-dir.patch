@@ -7,7 +7,7 @@ index 8f3e920516c7..38b1fd6a69ad 100644
  # We thus use INCLUDED_AUTOCONF_MK to enable/disable some parts depending
  # whether a normal build is happening or whether the check is running.
 -installdir = $(libdir)/$(MOZ_APP_NAME)
-+installdir = $(libdir)/$(MOZ_APP_NAME)-betterkeys
++installdir = $(libdir)/$(MOZ_APP_NAME)-alt
  ifeq (.,$(DEPTH))
  DIST = dist
  else
@@ -21,8 +21,8 @@ index a4b87438f15a..474c8db637f9 100644
  	$(NSINSTALL) -D $(DESTDIR)$(bindir)
 -	$(RM) -f $(DESTDIR)$(bindir)/$(MOZ_APP_NAME)
 -	ln -s $(installdir)/$(MOZ_APP_NAME) $(DESTDIR)$(bindir)
-+	$(RM) -f $(DESTDIR)$(bindir)/$(MOZ_APP_NAME)-betterkeys
-+	ln -s $(installdir)/$(MOZ_APP_NAME) $(DESTDIR)$(bindir)/$(MOZ_APP_NAME)-betterkeys
++	$(RM) -f $(DESTDIR)$(bindir)/$(MOZ_APP_NAME)-alt
++	ln -s $(installdir)/$(MOZ_APP_NAME) $(DESTDIR)$(bindir)/$(MOZ_APP_NAME)-alt
  
  upload:
  	$(PYTHON3) -u $(MOZILLA_DIR)/build/upload.py --base-path $(DIST) $(UPLOAD_FILES)

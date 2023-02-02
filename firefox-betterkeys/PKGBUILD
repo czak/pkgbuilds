@@ -2,7 +2,7 @@
 # Contributor: Ionut Biru <ibiru@archlinux.org>
 # Contributor: Jakub Schmidtke <sjakub@gmail.com>
 
-pkgname=firefox-betterkeys
+pkgname=firefox-alt
 pkgver=109.0
 pkgrel=1
 pkgdesc="Standalone web browser from mozilla.org (accelKey fixes by czak)"
@@ -118,7 +118,7 @@ prepare() {
   # Improved Alt & Control operation
   patch -Np1 -i ../accel-key-customizations.patch
 
-  # Change install dir from 'firefox' to 'firefox-betterkeys'
+  # Change install dir from 'firefox' to 'firefox-alt'
   patch -Np1 -i ../firefox-install-dir.patch
 
   echo -n "$_google_api_key" >google-api-key
