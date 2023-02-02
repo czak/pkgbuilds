@@ -2,6 +2,6 @@
 *.tar.xz.asc
 *.tar.bz2
 *.tar.bz2.asc
-*.pkg.tar.zst
+*.tar.zst
 */pkg/
 */src/
