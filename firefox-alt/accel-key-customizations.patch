@@ -1,3 +1,79 @@
+diff --git a/browser/base/content/appmenu-viewcache.inc.xhtml b/browser/base/content/appmenu-viewcache.inc.xhtml
+--- a/browser/base/content/appmenu-viewcache.inc.xhtml
++++ b/browser/base/content/appmenu-viewcache.inc.xhtml
+@@ -91,7 +91,6 @@
+       <toolbarbutton id="appMenu-save-file-button2"
+                      class="subviewbutton"
+                      data-l10n-id="appmenuitem-save-page"
+-                     key="key_savePage"
+                      command="Browser:SavePage"/>
+       <toolbarbutton id="appMenu-find-button2"
+                      class="subviewbutton"
+diff --git a/browser/base/content/browser-development-helpers.js b/browser/base/content/browser-development-helpers.js
+--- a/browser/base/content/browser-development-helpers.js
++++ b/browser/base/content/browser-development-helpers.js
+@@ -31,7 +31,7 @@ var DevelopmentHelpers = {
+     let key = document.createXULElement("key");
+     key.setAttribute("id", "key_quickRestart");
+     key.setAttribute("key", "r");
+-    key.setAttribute("modifiers", "accel,alt");
++    key.setAttribute("modifiers", "control,alt");
+     key.setAttribute("command", "cmd_quickRestart");
+     document.getElementById("mainKeyset").prepend(key);
+ 
+diff --git a/browser/base/content/browser-sets.inc b/browser/base/content/browser-sets.inc
+--- a/browser/base/content/browser-sets.inc
++++ b/browser/base/content/browser-sets.inc
+@@ -171,12 +171,12 @@
+     <key id="key_toggleMute" data-l10n-id="mute-toggle-shortcut" command="cmd_toggleMute" modifiers="control"/>
+     <key id="key_undo"
+          data-l10n-id="text-action-undo-shortcut"
+-         modifiers="accel"
++         modifiers="control"
+          internal="true"/>
+     <key id="key_redo"
+ #ifdef XP_UNIX
+          data-l10n-id="text-action-undo-shortcut"
+-         modifiers="accel,shift"
++         modifiers="control,shift"
+ #else
+          data-l10n-id="text-action-redo-shortcut"
+          modifiers="accel"
+@@ -184,15 +184,15 @@
+          internal="true"/>
+     <key id="key_cut"
+          data-l10n-id="text-action-cut-shortcut"
+-         modifiers="accel"
++         modifiers="control"
+          internal="true"/>
+     <key id="key_copy"
+          data-l10n-id="text-action-copy-shortcut"
+-         modifiers="accel"
++         modifiers="control"
+          internal="true"/>
+     <key id="key_paste"
+          data-l10n-id="text-action-paste-shortcut"
+-         modifiers="accel"
++         modifiers="control"
+          internal="true"/>
+     <key id="key_delete" keycode="VK_DELETE" command="cmd_delete" reserved="false"/>
+     <key id="key_selectAll" data-l10n-id="text-action-select-all-shortcut" modifiers="accel" internal="true"/>
+@@ -222,15 +222,6 @@
+     <key id="key_fullScreen_old" data-l10n-id="full-screen-shortcut" command="View:FullScreen" modifiers="accel,shift"/>
+     <key keycode="VK_F11" command="View:FullScreen"/>
+ #endif
+-    <key id="key_toggleReaderMode"
+-         command="View:ReaderView"
+-#ifdef XP_WIN
+-         data-l10n-id="reader-mode-toggle-shortcut-windows"
+-#else
+-         data-l10n-id="reader-mode-toggle-shortcut-other"
+-         modifiers="accel,alt"
+-#endif
+-         disabled="true"/>
+ 
+ #ifndef XP_MACOSX
+     <key id="key_togglePictureInPicture" data-l10n-id="picture-in-picture-toggle-shortcut" command="View:PictureInPicture" modifiers="accel,shift"/>
 diff --git a/browser/components/urlbar/UrlbarController.sys.mjs b/browser/components/urlbar/UrlbarController.sys.mjs
 --- a/browser/components/urlbar/UrlbarController.sys.mjs
 +++ b/browser/components/urlbar/UrlbarController.sys.mjs
@@ -9,6 +85,36 @@ diff --git a/browser/components/urlbar/UrlbarController.sys.mjs b/browser/compon
        this.view.isOpen &&
        event.ctrlKey &&
        (event.key == "n" || event.key == "p")
+diff --git a/browser/locales/en-US/browser/browserSets.ftl b/browser/locales/en-US/browser/browserSets.ftl
+--- a/browser/locales/en-US/browser/browserSets.ftl
++++ b/browser/locales/en-US/browser/browserSets.ftl
+@@ -33,7 +33,7 @@ search-focus-shortcut =
+ #   - web search
+ #   - find in page
+ find-shortcut =
+-    .key = F
++    .key = S
+ 
+ search-find-again-shortcut =
+     .key = G
+@@ -69,7 +69,7 @@ file-open-shortcut =
+     .key = O
+ 
+ save-page-shortcut =
+-    .key = S
++    .key = {""}
+ 
+ page-source-shortcut =
+     .key = U
+@@ -120,7 +120,7 @@ reader-mode-toggle-shortcut-windows =
+     .keycode = VK_F9
+ 
+ reader-mode-toggle-shortcut-other =
+-    .key = R
++    .key = {""}
+ 
+ picture-in-picture-toggle-shortcut-mac =
+     .key = ]
 diff --git a/dom/events/ShortcutKeyDefinitions.cpp b/dom/events/ShortcutKeyDefinitions.cpp
 --- a/dom/events/ShortcutKeyDefinitions.cpp
 +++ b/dom/events/ShortcutKeyDefinitions.cpp
@@ -84,3 +190,63 @@ diff --git a/dom/events/ShortcutKeyDefinitions.cpp b/dom/events/ShortcutKeyDefin
  
  // Mac uses Option+Shift+Command+V for Paste and Match Style
  #if defined(MOZ_WIDGET_COCOA)
+diff --git a/modules/libpref/init/all.js b/modules/libpref/init/all.js
+--- a/modules/libpref/init/all.js
++++ b/modules/libpref/init/all.js
+@@ -1969,8 +1969,8 @@ pref("extensions.install_origins.enabled
+ // Modifier key prefs: default to Windows settings,
+ // menu access key = alt, accelerator key = control.
+ // Use 17 for Ctrl, 18 for Alt, 224 for Meta, 91 for Win, 0 for none. Mac settings in macprefs.js
+-pref("ui.key.accelKey", 17);
+-pref("ui.key.menuAccessKey", 18);
++pref("ui.key.accelKey", 18);
++pref("ui.key.menuAccessKey", 0);
+ 
+ // Middle-mouse handling
+ pref("middlemouse.paste", false);
+diff --git a/toolkit/locales/en-US/toolkit/main-window/findbar.ftl b/toolkit/locales/en-US/toolkit/main-window/findbar.ftl
+--- a/toolkit/locales/en-US/toolkit/main-window/findbar.ftl
++++ b/toolkit/locales/en-US/toolkit/main-window/findbar.ftl
+@@ -31,9 +31,9 @@ findbar-match-diacritics =
+     .tooltiptext = Distinguish between accented letters and their base letters (for example, when searching for “resume”, “résumé” will not be matched)
+ 
+ findbar-entire-word =
+-    .label = Whole Words
+-    .accesskey = W
+-    .tooltiptext = Search whole words only
++    .label = Entire Words
++    .accesskey = E
++    .tooltiptext = Search entire words only
+ 
+ findbar-not-found = Phrase not found
+ 
+@@ -41,7 +41,7 @@ findbar-wrapped-to-top = Reached end of 
+ findbar-wrapped-to-bottom = Reached top of page, continued from bottom
+ 
+ findbar-normal-find =
+-    .placeholder = Find in page
++    .placeholder = Search in page
+ findbar-fast-find =
+     .placeholder = Quick find
+ findbar-fast-find-links =
+@@ -52,7 +52,7 @@ findbar-case-sensitive-status =
+ findbar-match-diacritics-status =
+     .value = (Matching diacritics)
+ findbar-entire-word-status =
+-    .value = (Whole words only)
++    .value = (Entire words only)
+ 
+ # Variables:
+ #   $current (Number): Index of the currently selected match
+diff --git a/toolkit/modules/ShortcutUtils.sys.mjs b/toolkit/modules/ShortcutUtils.sys.mjs
+--- a/toolkit/modules/ShortcutUtils.sys.mjs
++++ b/toolkit/modules/ShortcutUtils.sys.mjs
+@@ -62,7 +62,7 @@ export var ShortcutUtils = {
+         haveCloverLeaf = true;
+       } else {
+         elemString +=
+-          lazy.PlatformKeys.GetStringFromName("VK_CONTROL") +
++          lazy.PlatformKeys.GetStringFromName("VK_ALT") +
+           lazy.PlatformKeys.GetStringFromName("MODIFIER_SEPARATOR");
+       }
+     }
