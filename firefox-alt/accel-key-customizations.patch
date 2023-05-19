@@ -190,20 +190,6 @@ diff --git a/dom/events/ShortcutKeyDefinitions.cpp b/dom/events/ShortcutKeyDefin
  
  // Mac uses Option+Shift+Command+V for Paste and Match Style
  #if defined(MOZ_WIDGET_COCOA)
-diff --git a/modules/libpref/init/all.js b/modules/libpref/init/all.js
---- a/modules/libpref/init/all.js
-+++ b/modules/libpref/init/all.js
-@@ -1969,8 +1969,8 @@ pref("extensions.install_origins.enabled
- // Modifier key prefs: default to Windows settings,
- // menu access key = alt, accelerator key = control.
- // Use 17 for Ctrl, 18 for Alt, 224 for Meta, 91 for Win, 0 for none. Mac settings in macprefs.js
--pref("ui.key.accelKey", 17);
--pref("ui.key.menuAccessKey", 18);
-+pref("ui.key.accelKey", 18);
-+pref("ui.key.menuAccessKey", 0);
- 
- // Middle-mouse handling
- pref("middlemouse.paste", false);
 diff --git a/toolkit/locales/en-US/toolkit/main-window/findbar.ftl b/toolkit/locales/en-US/toolkit/main-window/findbar.ftl
 --- a/toolkit/locales/en-US/toolkit/main-window/findbar.ftl
 +++ b/toolkit/locales/en-US/toolkit/main-window/findbar.ftl
