@@ -1,7 +1,7 @@
 pkgname=wine-ge-custom-bin
 _srctag=GE-Proton8-8
 pkgver=${_srctag//-/.}
-pkgrel=1
+pkgrel=2
 pkgdesc="A compatibility layer for running Windows programs - GloriousEggroll binary build"
 arch=(x86_64)
 url="https://github.com/GloriousEggroll/wine-ge-custom"
@@ -53,5 +53,9 @@ package() {
   install -d -m755 ${pkgdir}/usr/bin
 
   cp -r ${_output}/* ${pkgdir}/opt/${pkgname}
-  ln -s /opt/${pkgname}/bin/wine ${pkgdir}/usr/bin/wine
+
+  BINARIES="wine wine64 wineboot wineserver"
+  for binary in ${BINARIES}; do
+    ln -s /opt/${pkgname}/bin/${binary} ${pkgdir}/usr/bin/${binary}
+  done
 }
