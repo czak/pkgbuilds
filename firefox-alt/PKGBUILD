@@ -3,7 +3,7 @@
 # Contributor: Jakub Schmidtke <sjakub@gmail.com>
 
 pkgname=firefox-alt
-pkgver=115.0.1
+pkgver=116.0.3
 pkgrel=1
 pkgdesc="Standalone web browser from mozilla.org (accelKey fixes by czak)"
 url="https://www.mozilla.org/firefox/"
@@ -71,15 +71,17 @@ source=(
   accel-key-customizations.patch
 )
 validpgpkeys=(
-  '14F26682D0916CDD81E37B6D61B7B526D98F0353'  # Mozilla Software Releases <release@mozilla.com>
+  # Mozilla Software Releases <release@mozilla.com>
+  # https://blog.mozilla.org/security/2023/05/11/updated-gpg-key-for-signing-firefox-releases/
+  14F26682D0916CDD81E37B6D61B7B526D98F0353
 )
-sha256sums=('cde9c7e6e4d9d3a0a247ce672009d4dd484d389b533e0181f6428dd104a8a228'
+sha256sums=('575a0d11b487a03527cc90c5e6d556c09669201cbb584b73442b202ee1d3e2e6'
             'SKIP'
             'a1c442458f296dfaecf70f568324e17554831d6e2f9f648188f306aac06a5bc6'
             'a9b8b4a0a1f4a7b4af77d5fc70c2686d624038909263c795ecc81e0aec7711e9'
             'c8abfa3a3b4534518afa585c837a79a6c8381081fb2d1e78653be90b1ee9147b'
             '289d082f61436b477446297856754b288d994ef4566ba13d3814e9a4c1378b1e')
-b2sums=('3c5d4fa7c10f1d7f4bf88d0c42760dfb16d62d34110d2076d840234f81666f15549f07cf706f6d3fee4f6840a6d58bbfa3942d914b6109789993b956b0e8f74b'
+b2sums=('371ff2db5516059b6df21dc4c9350db9f829f6932fb401d7eec2570771aa12919e9a6b1636bb969d9a0ceddf9ab7f8535c9136287847893431143c6e9cb80551'
         'SKIP'
         'bc551a5f55160929d4a2d7d609e06aae973651c1461bd02115b302a7077b93e802552399ff8ea282c22be1066c0af7ea49a63cb2e6a8d43b8dab0ae091c51662'
         '63a8dd9d8910f9efb353bed452d8b4b2a2da435857ccee083fc0c557f8c4c1339ca593b463db320f70387a1b63f1a79e709e9d12c69520993e26d85a3d742e34'
@@ -188,7 +190,7 @@ END
 
   echo "Building optimized browser..."
   cat >.mozconfig ../mozconfig - <<END
-ac_add_options --enable-lto=cross
+ac_add_options --enable-lto=cross,full
 ac_add_options --enable-profile-use=cross
 ac_add_options --with-pgo-profile-path=${PWD@Q}/merged.profdata
 ac_add_options --with-pgo-jarlog=${PWD@Q}/jarlog
