@@ -1,0 +1,15 @@
+# Maintainer: Yao Yunshan <qimuzi@aliyun.com>
+pkgname=clangd
+pkgver=17.0.3
+pkgrel=1
+pkgdesc="Stable clangd official release"
+arch=('any')
+url="https://github.com/clangd/clangd"
+license=('Apache')
+source=("$url/releases/download/$pkgver/clangd-linux-$pkgver.zip")
+sha256sums=('cdfce9650d7bf705bea60b71075e5f6ffa26b8c42146e20731e87de4c98246d4')
+
+package() {
+	mkdir -p $pkgdir/opt
+	cp -r $srcdir/clangd_$pkgver $pkgdir/opt/clangd
+}
