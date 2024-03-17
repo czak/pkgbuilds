@@ -1,0 +1,52 @@
+pkgname=lib32-mangohud-socket-git
+pkgver=0.7.1.r24.ga7a73af
+pkgrel=1
+pkgdesc="32-bit libraries for MangoHud and MangoApp"
+url='https://github.com/flightlessmango/MangoHud'
+license=('MIT')
+arch=('x86_64')
+makedepends=('git' 'glfw' 'glslang' 'lib32-libglvnd' 'lib32-libxrandr' 'meson' 'nlohmann-json' 'python-mako' 'vulkan-headers')
+depends=('lib32-dbus' 'lib32-gcc-libs' 'lib32-glew' 'lib32-libx11' 'lib32-libxkbcommon' 'lib32-vulkan-icd-loader')
+provides=('lib32-mangohud')
+conflicts=('lib32-mangohud')
+source=("${pkgname}::git+$url"
+        "non-abstract-socket.patch")
+sha512sums=('SKIP'
+            'e1463c503ea283c868dff96c25d00da17ef848bc52bbc83f490058bb095eb35c18d6595670312150b7dbd67f2781b4e61e8613fe36888501d1c73f93962f0f7a')
+
+pkgver() {
+    cd $pkgname
+    git describe --tags --long --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${pkgname}"
+  patch -p1 < ../non-abstract-socket.patch
+}
+
+build() {
+    export CC="gcc -m32"
+    export CXX="g++ -m32"
+    export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+    export LLVM_CONFIG="/usr/bin/llvm-config32"
+
+     arch-meson "${pkgname}" build \
+        -Dmangoapp=false \
+        -Dmangohudctl=false \
+        -Dwith_nvml=disabled \
+        -Dwith_xnvctrl=disabled \
+        -Dtests=disabled \
+        -Dinclude_doc=false \
+        --wrap-mode=nofallback \
+        --libdir lib32
+
+    meson compile -C build
+}
+
+package() {
+    meson install -C build --destdir "$pkgdir"
+
+    rm -rf "$pkgdir/usr/bin"
+
+    install -Dm 0644 "${pkgname}/LICENSE" -t "$pkgdir/usr/share/licenses/${pkgname}/"
+}
