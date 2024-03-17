@@ -1,0 +1,34 @@
+diff --git a/src/mesa/util/os_socket.c b/src/mesa/util/os_socket.c
+index 98ef013..365b744 100644
+--- a/src/mesa/util/os_socket.c
++++ b/src/mesa/util/os_socket.c
+@@ -14,6 +14,7 @@
+ #include <stddef.h>
+ #include <string.h>
+ #include <sys/socket.h>
++#include <sys/stat.h>
+ #include <sys/un.h>
+ #include <unistd.h>
+ 
+@@ -27,12 +28,16 @@ os_socket_listen_abstract(const char *path, int count)
+    struct sockaddr_un addr;
+    memset(&addr, 0, sizeof(addr));
+    addr.sun_family = AF_UNIX;
+-   strncpy(addr.sun_path + 1, path, sizeof(addr.sun_path) - 2);
++   strncpy(addr.sun_path, path, sizeof(addr.sun_path) - 1);
+ 
+-   /* Create an abstract socket */
+-   int ret = bind(s, (struct sockaddr*)&addr,
+-                  offsetof(struct sockaddr_un, sun_path) +
+-                  strlen(path) + 1);
++   /* Unlink if path exists and is a socket */
++   struct stat sb;
++   if (lstat(path, &sb) == 0 && S_ISSOCK(sb.st_mode)) {
++      unlink(path);
++   }
++
++   /* Create a socket */
++   int ret = bind(s, (struct sockaddr*)&addr, sizeof(addr));
+    if (ret < 0)
+       return -1;
+ 
