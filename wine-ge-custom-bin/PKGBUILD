@@ -1,5 +1,5 @@
 pkgname=wine-ge-custom-bin
-_srctag=GE-Proton8-10
+_srctag=GE-Proton8-26
 pkgver=${_srctag//-/.}
 pkgrel=1
 pkgdesc="A compatibility layer for running Windows programs - GloriousEggroll binary build"
@@ -10,7 +10,7 @@ provides=("wine=8.0" "wine-wow64=8.0")
 conflicts=('wine' 'wine-wow64')
 
 source=("https://github.com/GloriousEggroll/wine-ge-custom/releases/download/${_srctag}/wine-lutris-${_srctag}-x86_64.tar.xz")
-sha256sums=('c25acd953760785a1668247c5492d31b69ad78c9a3245f275fe96195cf57d073')
+sha256sums=('9cef292850a470b1a2637b22959051ab36784dccdb4966c19607790a1e3a96f1')
 
 depends=(
   attr             lib32-attr
