@@ -1,12 +1,12 @@
 pkgname=mangohud-socket-git
-pkgver=0.7.1.r24.ga7a73af
+pkgver=0.7.2.rc1.r0.gbbf2872
 pkgrel=1
 pkgdesc="A Vulkan overlay layer for monitoring FPS, temperatures, CPU/GPU load and more."
 url='https://github.com/flightlessmango/MangoHud'
 license=('MIT')
 arch=('x86_64')
 makedepends=('glslang' 'libxrandr' 'meson' 'nlohmann-json' 'python-mako' 'vulkan-headers')
-depends=('dbus' 'fmt' 'gcc-libs' 'glew' 'hicolor-icon-theme' 'libglvnd' 'libx11' 'python-matplotlib' 'python-numpy' 'vulkan-icd-loader')
+depends=('fmt' 'gcc-libs' 'glew' 'hicolor-icon-theme' 'libglvnd' 'libx11' 'vulkan-icd-loader')
 provides=('mangohud')
 conflicts=('mangohud')
 source=("${pkgname}::git+$url"
@@ -30,7 +30,10 @@ build() {
         -Dmangohudctl=false \
         -Dwith_nvml=disabled \
         -Dwith_xnvctrl=disabled \
+        -Dwith_dbus=disabled \
+        -Dmangoplot=disabled \
         -Dtests=disabled \
+        -Dinclude_doc=false \
         --wrap-mode=nofallback
 
     meson compile -C build
