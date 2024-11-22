@@ -1,8 +1,11 @@
+*.tar.gz
+*.tar.gz.sig
 *.tar.xz
 *.tar.xz.asc
 *.tar.bz2
 *.tar.bz2.asc
 *.tar.zst
 *.zip
+*.tar
 */pkg/
 */src/
